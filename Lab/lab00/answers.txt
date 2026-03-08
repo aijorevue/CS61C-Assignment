@@ -1,3 +1,8 @@
+ls -l
+1.mv file.txt ./new_folder
+2.chmod 755 script.sh
+3.pwd
+4.ping google.com
 1.grep -r ""
 2.ps
 3.kill

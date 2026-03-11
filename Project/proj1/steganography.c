@@ -21,13 +21,36 @@
 //Determines what color the cell at the given row/col should be. This should not affect Image, and should allocate space for a new Color.
 Color *evaluateOnePixel(Image *image, int row, int col)
 {
+	Color *newColor = malloc(sizeof(Color));
 	//YOUR CODE HERE
+	newColor->B = (image->image[row*image->cols+col]->B) & 1;
+	if(newColor->B==0) {
+		newColor->R = 0;
+		newColor->G = 0;
+		newColor->B = 0;
+	}
+	else {
+		newColor->R = 255;
+		newColor->G = 255;
+		newColor->B = 255;
+	}
+	return newColor;
 }
 
 //Given an image, creates a new image extracting the LSB of the B channel.
 Image *steganography(Image *image)
 {
 	//YOUR CODE HERE
+	Image *newImage =malloc(sizeof(Image));
+	newImage->cols = image->cols;
+	newImage->rows = image->rows;
+	newImage->image = malloc(newImage->rows*newImage->cols*sizeof(Color*));
+	for(int i=0;i<newImage->rows;i++) {
+		for(int j=0;j<newImage->cols;j++) {
+			newImage->image[i*newImage->cols+j] = evaluateOnePixel(image, i, j);
+		}
+	}
+	return newImage;
 }
 
 /*
@@ -46,4 +69,17 @@ Make sure to free all memory before returning!
 int main(int argc, char **argv)
 {
 	//YOUR CODE HERE
+	if(argc!=2) {
+		fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
+		return -1;
+	}	
+	Image *ima = readData(argv[1]);
+	if(ima == NULL) {
+		return -1;
+	}
+	Image *newImage = steganography(ima);
+	writeData(newImage);
+	freeImage(ima);
+	freeImage(newImage);
+	return 0;
 }

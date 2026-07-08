@@ -27,9 +27,17 @@ abs:
 
     #以下为所给实例代码用来通过test_minus_one
     #branch if positive
+
+    #if (a0>=0){
+    #    return a0;
+    #}
     bge a0,zero,done
 
     #invert a if negative
+
+    #elif(a0<0){
+    #    return (-a0);
+    #}
     sub a0,zero,a0
 
 done:

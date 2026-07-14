@@ -50,6 +50,24 @@ class TestRelu(TestCase):
         # generate the `assembly/TestRelu_test_simple.s` file and run it through venus
         t.execute()
 
+    def test_empty(self):
+        t=AssemblyTest(self,"relu.s")
+        array0=t.array([])
+        t.input_array("a0",array0)
+        t.input_scalar("a1",len(array0))
+        t.call("relu")
+        t.check_array(array0,[])
+        t.execute()
+    
+    def test_all_negative(self):
+        t=AssemblyTest(self,"relu.s")
+        array0=t.array([-1,-2,-3,-4])
+        t.input_array("a0",array0)
+        t.input_scalar("a1",len(array0))
+        t.call("relu")
+        t.check_array(array0,[0,0,0,0])
+        t.execute()
+
     @classmethod
     def tearDownClass(cls):
         print_coverage("relu.s", verbose=False)
@@ -59,17 +77,22 @@ class TestArgmax(TestCase):
     def test_simple(self):
         t = AssemblyTest(self, "argmax.s")
         # create an array in the data section
-        raise NotImplementedError("TODO")
+        array0 = t.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
         # TODO
         # load address of the array into register a0
+        t.input_array("a0",array0)
         # TODO
         # set a1 to the length of the array
+        t.input_scalar("a1",len(array0))
         # TODO
         # call the `argmax` function
+        t.call("argmax")
         # TODO
         # check that the register a0 contains the correct output
+        t.check_scalar("a0",8)
         # TODO
         # generate the `assembly/TestArgmax_test_simple.s` file and run it through venus
+
         t.execute()
 
     @classmethod
@@ -81,16 +104,23 @@ class TestDot(TestCase):
     def test_simple(self):
         t = AssemblyTest(self, "dot.s")
         # create arrays in the data section
-        raise NotImplementedError("TODO")
+        array0=t.array([1,2,3,4,5])
+        array1=t.array([6,7,8,9,10])
         # TODO
         # load array addresses into argument registers
+        t.input_array("a0",array0)
+        t.input_array("a1",array1)
         # TODO
         # load array attributes into argument registers
+        t.input_scalar("a2",2)
+        t.input_scalar("a3",1)
+        t.input_scalar("a4",2)
         # TODO
         # call the `dot` function
         t.call("dot")
         # check the return value
         # TODO
+        t.check_scalar("a0", 22)
         t.execute()
 
     @classmethod

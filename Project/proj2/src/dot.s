@@ -26,11 +26,12 @@ dot:
     mv t1,zero
     li t2,0
     mv t0,zero
+    li t6,4
+
 loop_start:
     bge t2,a2,loop_end 
     lw t3,0(a0)
     lw t4,0(a1)
-    li t6,4
 loop_continue:
     mul t5,t3,t4
     add t0,t0,t5
